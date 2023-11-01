@@ -509,7 +509,7 @@ This changelog (archived) contains changes for old releases.
 * SECURITY
   * Encrypt migration credentials at rest (#15895) (#16187)
   * Only check access tokens if they are likely to be tokens (#16164) (#16171)
-  * Add missing SameSite settings for the i_like_gitea cookie (#16037) (#16039)
+  * Add missing SameSite settings for the mix_studio cookie (#16037) (#16039)
   * Fix setting of SameSite on cookies (#15989) (#15991)
 * API
   * Repository object only count releases as releases (#16184) (#16190)

@@ -8,7 +8,7 @@ test.beforeAll(async ({browser}, workerInfo) => {
 test('homepage', async ({page}) => {
   const response = await page.goto('/');
   expect(response?.status()).toBe(200); // Status OK
-  await expect(page).toHaveTitle(/^Gitea: Git with a cup of tea\s*$/);
+  await expect(page).toHaveTitle(/^Mix Studio Code\s*$/);
   await expect(page.locator('.logo')).toHaveAttribute('src', '/assets/img/logo.svg');
 });
 

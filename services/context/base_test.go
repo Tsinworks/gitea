@@ -32,7 +32,7 @@ func TestRedirect(t *testing.T) {
 		b := NewBaseContextForTest(resp, req)
 		resp.Header().Add("Set-Cookie", (&http.Cookie{Name: setting.SessionConfig.CookieName, Value: "dummy"}).String())
 		b.Redirect(c.url)
-		has := resp.Header().Get("Set-Cookie") == "i_like_gitea=dummy"
+		has := resp.Header().Get("Set-Cookie") == "mix_studio=dummy"
 		assert.Equal(t, c.keep, has, "url = %q", c.url)
 	}
 

@@ -4,9 +4,12 @@
 package oauth2
 
 import (
+	"net/http"
+
 	"code.gitea.io/gitea/modules/setting"
 
 	"github.com/markbates/goth"
+	"github.com/markbates/goth/providers/apple"
 	"github.com/markbates/goth/providers/azuread"
 	"github.com/markbates/goth/providers/bitbucket"
 	"github.com/markbates/goth/providers/discord"
@@ -106,4 +109,15 @@ func init() {
 			return microsoftonline.New(clientID, secret, callbackURL, scopes...)
 		},
 	))
+
+	// Register Apple provider
+	RegisterGothProvider(NewSimpleProvider(
+		"apple", "Apple", nil,
+		func(clientID, secret, callbackURL string, scopes ...string) goth.Provider {
+			return apple.New(clientID, secret, callbackURL, &http.Client{}, scopes...)
+		},
+	))
+
+	// Register WeChat provider
+	RegisterGothProvider(NewWeChatProvider("wechat", "WeChat", []string{"snsapi_login"}))
 }

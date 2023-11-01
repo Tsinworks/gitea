@@ -33,7 +33,7 @@ var SessionConfig = struct {
 	// SameSite declares if your cookie should be restricted to a first-party or same-site context. Valid strings are "none", "lax", "strict". Default is "lax"
 	SameSite http.SameSite
 }{
-	CookieName:  "i_like_gitea",
+	CookieName:  "mix_studio",
 	Gclifetime:  86400,
 	Maxlifetime: 86400,
 	SameSite:    http.SameSiteLaxMode,
@@ -48,7 +48,7 @@ func loadSessionFrom(rootCfg ConfigProvider) {
 		SessionConfig.ProviderConfig = filepath.Join(AppWorkPath, SessionConfig.ProviderConfig)
 		checkOverlappedPath("[session].PROVIDER_CONFIG", SessionConfig.ProviderConfig)
 	}
-	SessionConfig.CookieName = sec.Key("COOKIE_NAME").MustString("i_like_gitea")
+	SessionConfig.CookieName = sec.Key("COOKIE_NAME").MustString("mix_studio")
 	SessionConfig.CookiePath = AppSubURL
 	if SessionConfig.CookiePath == "" {
 		SessionConfig.CookiePath = "/"

@@ -93,7 +93,9 @@ func autoSignIn(ctx *context.Context) (bool, error) {
 	if err := updateSession(ctx, nil, map[string]any{
 		session.KeyUID:                  u.ID,
 		session.KeyUname:                u.Name,
+		session.KeyEmail:                u.Email,
 		session.KeyUserHasTwoFactorAuth: userHasTwoFactorAuth,
+		session.KeyIsAdmin:              u.IsAdmin,
 	}); err != nil {
 		return false, fmt.Errorf("unable to updateSession: %w", err)
 	}
@@ -333,7 +335,9 @@ func handleSignInFull(ctx *context.Context, u *user_model.User, remember, obeyRe
 	}, map[string]any{
 		session.KeyUID:                  u.ID,
 		session.KeyUname:                u.Name,
+		session.KeyEmail:                u.Email,
 		session.KeyUserHasTwoFactorAuth: userHasTwoFactorAuth,
+		session.KeyIsAdmin:              u.IsAdmin,
 	}); err != nil {
 		ctx.ServerError("RegenerateSession", err)
 		return setting.AppSubURL + "/"
