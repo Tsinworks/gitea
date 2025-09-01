@@ -9,11 +9,11 @@ import (
 
 	"code.gitea.io/gitea/modules/json"
 
-	"gitea.com/go-chi/session"
-	couchbase "gitea.com/go-chi/session/couchbase"
-	memcache "gitea.com/go-chi/session/memcache"
-	mysql "gitea.com/go-chi/session/mysql"
-	postgres "gitea.com/go-chi/session/postgres"
+	session "github.com/Tsinworks/gochi-session"
+	couchbase "github.com/Tsinworks/gochi-session/couchbase"
+	memcache "github.com/Tsinworks/gochi-session/memcache"
+	mysql "github.com/Tsinworks/gochi-session/mysql"
+	postgres "github.com/Tsinworks/gochi-session/postgres"
 )
 
 // VirtualSessionProvider represents a shadowed session provider implementation.
@@ -62,7 +62,7 @@ func (o *VirtualSessionProvider) Read(sid string) (session.RawStore, error) {
 	if o.provider.Exist(sid) {
 		return o.provider.Read(sid)
 	}
-	kv := make(map[any]any)
+	kv := make(map[string]any)
 	kv["_old_uid"] = "0"
 	return NewVirtualStore(o, sid, kv), nil
 }
@@ -107,12 +107,12 @@ type VirtualStore struct {
 	p        *VirtualSessionProvider
 	sid      string
 	lock     sync.RWMutex
-	data     map[any]any
+	data     map[string]any
 	released bool
 }
 
 // NewVirtualStore creates and returns a virtual session store.
-func NewVirtualStore(p *VirtualSessionProvider, sid string, kv map[any]any) *VirtualStore {
+func NewVirtualStore(p *VirtualSessionProvider, sid string, kv map[string]any) *VirtualStore {
 	return &VirtualStore{
 		p:    p,
 		sid:  sid,
@@ -121,7 +121,7 @@ func NewVirtualStore(p *VirtualSessionProvider, sid string, kv map[any]any) *Vir
 }
 
 // Set sets value to given key in session.
-func (s *VirtualStore) Set(key, val any) error {
+func (s *VirtualStore) Set(key string, val any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -130,7 +130,7 @@ func (s *VirtualStore) Set(key, val any) error {
 }
 
 // Get gets value by given key in session.
-func (s *VirtualStore) Get(key any) any {
+func (s *VirtualStore) Get(key string) any {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -138,7 +138,7 @@ func (s *VirtualStore) Get(key any) any {
 }
 
 // Delete delete a key from session.
-func (s *VirtualStore) Delete(key any) error {
+func (s *VirtualStore) Delete(key string) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -192,6 +192,6 @@ func (s *VirtualStore) Flush() error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	s.data = make(map[any]any)
+	s.data = make(map[string]any)
 	return nil
 }

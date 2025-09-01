@@ -21,8 +21,7 @@ import (
 	"code.gitea.io/gitea/modules/util"
 	"code.gitea.io/gitea/services/context"
 	"code.gitea.io/gitea/services/mailer"
-
-	"gitea.com/go-chi/session"
+	session "github.com/Tsinworks/gochi-session"
 )
 
 const (

@@ -6,7 +6,7 @@ package session
 import (
 	"net/http"
 
-	"gitea.com/go-chi/session"
+	session "github.com/Tsinworks/gochi-session"
 )
 
 type MockStore struct {

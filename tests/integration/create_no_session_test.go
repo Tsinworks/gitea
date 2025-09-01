@@ -15,7 +15,8 @@ import (
 	"code.gitea.io/gitea/routers"
 	"code.gitea.io/gitea/tests"
 
-	"gitea.com/go-chi/session"
+	session "github.com/Tsinworks/gochi-session"
+
 	"github.com/stretchr/testify/assert"
 )
 

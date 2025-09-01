@@ -37,8 +37,7 @@ import (
 	"code.gitea.io/gitea/services/context"
 	"code.gitea.io/gitea/services/forms"
 	"code.gitea.io/gitea/services/versioned_migration"
-
-	"gitea.com/go-chi/session"
+	session "github.com/Tsinworks/gochi-session"
 )
 
 const (

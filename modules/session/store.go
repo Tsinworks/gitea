@@ -8,14 +8,14 @@ import (
 
 	"code.gitea.io/gitea/modules/setting"
 
-	"gitea.com/go-chi/session"
+	session "github.com/Tsinworks/gochi-session"
 )
 
 // Store represents a session store
 type Store interface {
-	Get(any) any
-	Set(any, any) error
-	Delete(any) error
+	Get(string) any
+	Set(string, any) error
+	Delete(string) error
 	ID() string
 	Release() error
 	Flush() error

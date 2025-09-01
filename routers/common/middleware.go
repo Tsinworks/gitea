@@ -15,8 +15,8 @@ import (
 	"code.gitea.io/gitea/modules/setting"
 	"code.gitea.io/gitea/modules/web/routing"
 	"code.gitea.io/gitea/services/context"
+	session "github.com/Tsinworks/gochi-session"
 
-	"gitea.com/go-chi/session"
 	"github.com/chi-middleware/proxy"
 	"github.com/go-chi/chi/v5"
 )

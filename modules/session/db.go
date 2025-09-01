@@ -11,18 +11,18 @@ import (
 	"code.gitea.io/gitea/models/db"
 	"code.gitea.io/gitea/modules/timeutil"
 
-	"gitea.com/go-chi/session"
+	session "github.com/Tsinworks/gochi-session"
 )
 
 // DBStore represents a session store implementation based on the DB.
 type DBStore struct {
 	sid  string
 	lock sync.RWMutex
-	data map[any]any
+	data map[string]any
 }
 
 // NewDBStore creates and returns a DB session store.
-func NewDBStore(sid string, kv map[any]any) *DBStore {
+func NewDBStore(sid string, kv map[string]any) *DBStore {
 	return &DBStore{
 		sid:  sid,
 		data: kv,
@@ -30,7 +30,7 @@ func NewDBStore(sid string, kv map[any]any) *DBStore {
 }
 
 // Set sets value to given key in session.
-func (s *DBStore) Set(key, val any) error {
+func (s *DBStore) Set(key string, val any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -39,7 +39,7 @@ func (s *DBStore) Set(key, val any) error {
 }
 
 // Get gets value by given key in session.
-func (s *DBStore) Get(key any) any {
+func (s *DBStore) Get(key string) any {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -47,7 +47,7 @@ func (s *DBStore) Get(key any) any {
 }
 
 // Delete delete a key from session.
-func (s *DBStore) Delete(key any) error {
+func (s *DBStore) Delete(key string) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -80,7 +80,7 @@ func (s *DBStore) Flush() error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	s.data = make(map[any]any)
+	s.data = make(map[string]any)
 	return nil
 }
 
@@ -103,9 +103,9 @@ func (p *DBProvider) Read(sid string) (session.RawStore, error) {
 		return nil, err
 	}
 
-	var kv map[any]any
+	var kv map[string]any
 	if len(s.Data) == 0 || s.Expiry.Add(p.maxLifetime) <= timeutil.TimeStampNow() {
-		kv = make(map[any]any)
+		kv = make(map[string]any)
 	} else {
 		kv, err = session.DecodeGob(s.Data)
 		if err != nil {
@@ -137,9 +137,9 @@ func (p *DBProvider) Regenerate(oldsid, sid string) (_ session.RawStore, err err
 		return nil, err
 	}
 
-	var kv map[any]any
+	var kv map[string]any
 	if len(s.Data) == 0 || s.Expiry.Add(p.maxLifetime) <= timeutil.TimeStampNow() {
-		kv = make(map[any]any)
+		kv = make(map[string]any)
 	} else {
 		kv, err = session.DecodeGob(s.Data)
 		if err != nil {

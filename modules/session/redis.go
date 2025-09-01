@@ -25,7 +25,7 @@ import (
 	"code.gitea.io/gitea/modules/graceful"
 	"code.gitea.io/gitea/modules/nosql"
 
-	"gitea.com/go-chi/session"
+	session "github.com/Tsinworks/gochi-session"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -35,11 +35,11 @@ type RedisStore struct {
 	prefix, sid string
 	duration    time.Duration
 	lock        sync.RWMutex
-	data        map[any]any
+	data        map[string]any
 }
 
 // NewRedisStore creates and returns a redis session store.
-func NewRedisStore(c redis.UniversalClient, prefix, sid string, dur time.Duration, kv map[any]any) *RedisStore {
+func NewRedisStore(c redis.UniversalClient, prefix, sid string, dur time.Duration, kv map[string]any) *RedisStore {
 	return &RedisStore{
 		c:        c,
 		prefix:   prefix,
@@ -50,7 +50,7 @@ func NewRedisStore(c redis.UniversalClient, prefix, sid string, dur time.Duratio
 }
 
 // Set sets value to given key in session.
-func (s *RedisStore) Set(key, val any) error {
+func (s *RedisStore) Set(key string, val any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -59,7 +59,7 @@ func (s *RedisStore) Set(key, val any) error {
 }
 
 // Get gets value by given key in session.
-func (s *RedisStore) Get(key any) any {
+func (s *RedisStore) Get(key string) any {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -67,7 +67,7 @@ func (s *RedisStore) Get(key any) any {
 }
 
 // Delete delete a key from session.
-func (s *RedisStore) Delete(key any) error {
+func (s *RedisStore) Delete(key string) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -100,7 +100,7 @@ func (s *RedisStore) Flush() error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	s.data = make(map[any]any)
+	s.data = make(map[string]any)
 	return nil
 }
 
@@ -141,13 +141,13 @@ func (p *RedisProvider) Read(sid string) (session.RawStore, error) {
 		}
 	}
 
-	var kv map[any]any
+	var kv map[string]any
 	kvs, err := p.c.Get(graceful.GetManager().HammerContext(), psid).Result()
 	if err != nil {
 		return nil, err
 	}
 	if len(kvs) == 0 {
-		kv = make(map[any]any)
+		kv = make(map[string]any)
 	} else {
 		kv, err = session.DecodeGob([]byte(kvs))
 		if err != nil {
@@ -197,9 +197,9 @@ func (p *RedisProvider) Regenerate(oldsid, sid string) (_ session.RawStore, err 
 		return nil, err
 	}
 
-	var kv map[any]any
+	var kv map[string]any
 	if len(kvs) == 0 {
-		kv = make(map[any]any)
+		kv = make(map[string]any)
 	} else {
 		kv, err = session.DecodeGob([]byte(kvs))
 		if err != nil {
