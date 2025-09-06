@@ -18,11 +18,11 @@ import (
 type DBStore struct {
 	sid  string
 	lock sync.RWMutex
-	data map[string]any
+	data map[any]any
 }
 
 // NewDBStore creates and returns a DB session store.
-func NewDBStore(sid string, kv map[string]any) *DBStore {
+func NewDBStore(sid string, kv map[any]any) *DBStore {
 	return &DBStore{
 		sid:  sid,
 		data: kv,
@@ -30,7 +30,7 @@ func NewDBStore(sid string, kv map[string]any) *DBStore {
 }
 
 // Set sets value to given key in session.
-func (s *DBStore) Set(key string, val any) error {
+func (s *DBStore) Set(key, val any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -80,7 +80,7 @@ func (s *DBStore) Flush() error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	s.data = make(map[string]any)
+	s.data = make(map[any]any)
 	return nil
 }
 
@@ -103,9 +103,9 @@ func (p *DBProvider) Read(sid string) (session.RawStore, error) {
 		return nil, err
 	}
 
-	var kv map[string]any
+	var kv map[any]any
 	if len(s.Data) == 0 || s.Expiry.Add(p.maxLifetime) <= timeutil.TimeStampNow() {
-		kv = make(map[string]any)
+		kv = make(map[any]any)
 	} else {
 		kv, err = session.Decode(s.Data)
 		if err != nil {
@@ -137,9 +137,9 @@ func (p *DBProvider) Regenerate(oldsid, sid string) (_ session.RawStore, err err
 		return nil, err
 	}
 
-	var kv map[string]any
+	var kv map[any]any
 	if len(s.Data) == 0 || s.Expiry.Add(p.maxLifetime) <= timeutil.TimeStampNow() {
-		kv = make(map[string]any)
+		kv = make(map[any]any)
 	} else {
 		kv, err = session.Decode(s.Data)
 		if err != nil {

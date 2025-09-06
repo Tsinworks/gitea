@@ -35,11 +35,11 @@ type RedisStore struct {
 	prefix, sid string
 	duration    time.Duration
 	lock        sync.RWMutex
-	data        map[string]any
+	data        map[any]any
 }
 
 // NewRedisStore creates and returns a redis session store.
-func NewRedisStore(c redis.UniversalClient, prefix, sid string, dur time.Duration, kv map[string]any) *RedisStore {
+func NewRedisStore(c redis.UniversalClient, prefix, sid string, dur time.Duration, kv map[any]any) *RedisStore {
 	return &RedisStore{
 		c:        c,
 		prefix:   prefix,
@@ -50,7 +50,7 @@ func NewRedisStore(c redis.UniversalClient, prefix, sid string, dur time.Duratio
 }
 
 // Set sets value to given key in session.
-func (s *RedisStore) Set(key string, val any) error {
+func (s *RedisStore) Set(key, val any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -100,7 +100,7 @@ func (s *RedisStore) Flush() error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	s.data = make(map[string]any)
+	s.data = make(map[any]any)
 	return nil
 }
 
@@ -141,13 +141,13 @@ func (p *RedisProvider) Read(sid string) (session.RawStore, error) {
 		}
 	}
 
-	var kv map[string]any
+	var kv map[any]any
 	kvs, err := p.c.Get(graceful.GetManager().HammerContext(), psid).Result()
 	if err != nil {
 		return nil, err
 	}
 	if len(kvs) == 0 {
-		kv = make(map[string]any)
+		kv = make(map[any]any)
 	} else {
 		kv, err = session.Decode([]byte(kvs))
 		if err != nil {

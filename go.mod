@@ -26,7 +26,7 @@ require (
 	github.com/ProtonMail/go-crypto v1.2.0
 	github.com/PuerkitoBio/goquery v1.10.3
 	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.7.3
-	github.com/Tsinworks/gochi-session v0.0.0-20250906032532-83982f4e3bec
+	github.com/Tsinworks/gochi-session v0.0.0-20250906075526-2194946d9945
 	github.com/alecthomas/chroma/v2 v2.17.0
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.67
 	github.com/aws/aws-sdk-go-v2/service/codecommit v1.28.2
@@ -110,6 +110,7 @@ require (
 	github.com/ulikunitz/xz v0.5.12
 	github.com/urfave/cli-docs/v3 v3.0.0-alpha6
 	github.com/urfave/cli/v3 v3.3.3
+	github.com/vmihailenco/msgpack/v5 v5.4.1
 	github.com/wneessen/go-mail v0.6.2
 	github.com/xeipuuv/gojsonschema v1.2.0
 	github.com/yohcop/openid-go v1.0.1
@@ -260,7 +261,6 @@ require (
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/unknwon/com v1.0.1 // indirect
 	github.com/valyala/fastjson v1.6.4 // indirect
-	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect

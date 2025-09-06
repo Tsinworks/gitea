@@ -62,7 +62,7 @@ func (o *VirtualSessionProvider) Read(sid string) (session.RawStore, error) {
 	if o.provider.Exist(sid) {
 		return o.provider.Read(sid)
 	}
-	kv := make(map[string]any)
+	kv := make(map[any]any)
 	kv["_old_uid"] = "0"
 	return NewVirtualStore(o, sid, kv), nil
 }
@@ -107,12 +107,12 @@ type VirtualStore struct {
 	p        *VirtualSessionProvider
 	sid      string
 	lock     sync.RWMutex
-	data     map[string]any
+	data     map[any]any
 	released bool
 }
 
 // NewVirtualStore creates and returns a virtual session store.
-func NewVirtualStore(p *VirtualSessionProvider, sid string, kv map[string]any) *VirtualStore {
+func NewVirtualStore(p *VirtualSessionProvider, sid string, kv map[any]any) *VirtualStore {
 	return &VirtualStore{
 		p:    p,
 		sid:  sid,
@@ -121,7 +121,7 @@ func NewVirtualStore(p *VirtualSessionProvider, sid string, kv map[string]any) *
 }
 
 // Set sets value to given key in session.
-func (s *VirtualStore) Set(key string, val any) error {
+func (s *VirtualStore) Set(key, val any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -192,6 +192,6 @@ func (s *VirtualStore) Flush() error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	s.data = make(map[string]any)
+	s.data = make(map[any]any)
 	return nil
 }
