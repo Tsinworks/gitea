@@ -59,7 +59,7 @@ func (s *RedisStore) Set(key, val any) error {
 }
 
 // Get gets value by given key in session.
-func (s *RedisStore) Get(key string) any {
+func (s *RedisStore) Get(key any) any {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -67,7 +67,7 @@ func (s *RedisStore) Get(key string) any {
 }
 
 // Delete delete a key from session.
-func (s *RedisStore) Delete(key string) error {
+func (s *RedisStore) Delete(key any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -197,9 +197,9 @@ func (p *RedisProvider) Regenerate(oldsid, sid string) (_ session.RawStore, err 
 		return nil, err
 	}
 
-	var kv map[string]any
+	var kv map[any]any
 	if len(kvs) == 0 {
-		kv = make(map[string]any)
+		kv = make(map[any]any)
 	} else {
 		kv, err = session.Decode([]byte(kvs))
 		if err != nil {

@@ -13,9 +13,9 @@ import (
 
 // Store represents a session store
 type Store interface {
-	Get(string) any
-	Set(string, any) error
-	Delete(string) error
+	Get(any) any
+	Set(any, any) error
+	Delete(any) error
 	ID() string
 	Release() error
 	Flush() error

@@ -39,7 +39,7 @@ func (s *DBStore) Set(key, val any) error {
 }
 
 // Get gets value by given key in session.
-func (s *DBStore) Get(key string) any {
+func (s *DBStore) Get(key any) any {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -47,7 +47,7 @@ func (s *DBStore) Get(key string) any {
 }
 
 // Delete delete a key from session.
-func (s *DBStore) Delete(key string) error {
+func (s *DBStore) Delete(key any) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
