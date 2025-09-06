@@ -67,7 +67,7 @@ func (s *DBStore) Release() error {
 		return nil
 	}
 
-	data, err := session.EncodeGob(s.data)
+	data, err := session.Encode(s.data)
 	if err != nil {
 		return err
 	}
@@ -107,7 +107,7 @@ func (p *DBProvider) Read(sid string) (session.RawStore, error) {
 	if len(s.Data) == 0 || s.Expiry.Add(p.maxLifetime) <= timeutil.TimeStampNow() {
 		kv = make(map[string]any)
 	} else {
-		kv, err = session.DecodeGob(s.Data)
+		kv, err = session.Decode(s.Data)
 		if err != nil {
 			return nil, err
 		}
@@ -141,7 +141,7 @@ func (p *DBProvider) Regenerate(oldsid, sid string) (_ session.RawStore, err err
 	if len(s.Data) == 0 || s.Expiry.Add(p.maxLifetime) <= timeutil.TimeStampNow() {
 		kv = make(map[string]any)
 	} else {
-		kv, err = session.DecodeGob(s.Data)
+		kv, err = session.Decode(s.Data)
 		if err != nil {
 			return nil, err
 		}

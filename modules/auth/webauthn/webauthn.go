@@ -6,7 +6,6 @@ package webauthn
 import (
 	"context"
 	"encoding/binary"
-	"encoding/gob"
 
 	"code.gitea.io/gitea/models/auth"
 	user_model "code.gitea.io/gitea/models/user"
@@ -22,8 +21,6 @@ var WebAuthn *webauthn.WebAuthn
 
 // Init initializes the WebAuthn instance from the config.
 func Init() {
-	gob.Register(&webauthn.SessionData{})
-
 	appURL, _ := protocol.FullyQualifiedOrigin(setting.AppURL)
 
 	WebAuthn = &webauthn.WebAuthn{

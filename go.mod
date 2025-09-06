@@ -16,7 +16,6 @@ require (
 	gitea.com/go-chi/binding v0.0.0-20240430071103-39a851e106ed
 	gitea.com/go-chi/cache v0.2.1
 	gitea.com/go-chi/captcha v0.0.0-20240315150714-fb487f629098
-	gitea.com/go-chi/session v0.0.0-20240316035857-16768d98ec96
 	gitea.com/lunny/dingtalk_webhook v0.0.0-20171025031554-e3534c89ef96
 	gitea.com/lunny/levelqueue v0.4.2-0.20230414023320-3c0159fe0fe4
 	github.com/42wim/httpsig v1.2.2
@@ -27,7 +26,7 @@ require (
 	github.com/ProtonMail/go-crypto v1.2.0
 	github.com/PuerkitoBio/goquery v1.10.3
 	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.7.3
-	github.com/Tsinworks/gochi-session v0.0.0-20250901020716-28ff91954c25
+	github.com/Tsinworks/gochi-session v0.0.0-20250906032532-83982f4e3bec
 	github.com/alecthomas/chroma/v2 v2.17.0
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.67
 	github.com/aws/aws-sdk-go-v2/service/codecommit v1.28.2
@@ -261,6 +260,8 @@ require (
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/unknwon/com v1.0.1 // indirect
 	github.com/valyala/fastjson v1.6.4 // indirect
+	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect

@@ -5,7 +5,6 @@ package oauth2
 
 import (
 	"context"
-	"encoding/gob"
 	"net/http"
 	"sync"
 
@@ -16,7 +15,6 @@ import (
 	"code.gitea.io/gitea/modules/setting"
 
 	"github.com/google/uuid"
-	"github.com/gorilla/sessions"
 	"github.com/markbates/goth/gothic"
 )
 
@@ -32,8 +30,6 @@ const ProviderHeaderKey = "gitea-oauth2-provider"
 func Init(ctx context.Context) error {
 	// Lock our mutex
 	gothRWMutex.Lock()
-
-	gob.Register(&sessions.Session{})
 
 	gothic.Store = &SessionsStore{
 		maxLength: int64(setting.OAuth2.MaxTokenLength),

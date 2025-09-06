@@ -4,7 +4,6 @@
 package oauth2
 
 import (
-	"encoding/gob"
 	"fmt"
 	"net/http"
 
@@ -13,6 +12,7 @@ import (
 
 	chiSession "github.com/Tsinworks/gochi-session"
 	"github.com/gorilla/sessions"
+	"github.com/vmihailenco/msgpack/v5"
 )
 
 // SessionsStore creates a gothic store from our session
@@ -77,7 +77,8 @@ func (st *SessionsStore) Save(r *http.Request, w http.ResponseWriter, session *s
 	if st.maxLength > 0 {
 		sizeWriter := &sizeWriter{}
 
-		_ = gob.NewEncoder(sizeWriter).Encode(session)
+		enc := msgpack.NewEncoder(sizeWriter)
+		_ = enc.Encode(session)
 		if sizeWriter.size > st.maxLength {
 			return fmt.Errorf("encode session: Data too long: %d > %d", sizeWriter.size, st.maxLength)
 		}

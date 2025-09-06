@@ -5,13 +5,14 @@ package util
 
 import (
 	"bytes"
-	"encoding/gob"
+
+	"github.com/vmihailenco/msgpack/v5"
 )
 
-// PackData uses gob to encode the given data in sequence
+// PackData uses msgpack to encode the given data in sequence
 func PackData(data ...any) ([]byte, error) {
 	var buf bytes.Buffer
-	enc := gob.NewEncoder(&buf)
+	enc := msgpack.NewEncoder(&buf)
 	for _, datum := range data {
 		if err := enc.Encode(datum); err != nil {
 			return nil, err
@@ -20,12 +21,12 @@ func PackData(data ...any) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-// UnpackData uses gob to decode the given data in sequence
+// UnpackData uses msgpack to decode the given data in sequence
 func UnpackData(buf []byte, data ...any) error {
 	r := bytes.NewReader(buf)
-	enc := gob.NewDecoder(r)
+	dec := msgpack.NewDecoder(r)
 	for _, datum := range data {
-		if err := enc.Decode(datum); err != nil {
+		if err := dec.Decode(datum); err != nil {
 			return err
 		}
 	}
